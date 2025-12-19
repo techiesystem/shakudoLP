@@ -28,12 +28,118 @@
             background-color: #f8fafc;
             color: #333;
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        /* Sticky Breadcrumb Navigation */
+        .breadcrumb-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+        }
+
+        .breadcrumb-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--shakudo-secondary) #f1f1f1;
+        }
+
+        .breadcrumb-list::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .breadcrumb-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .breadcrumb-list::-webkit-scrollbar-thumb {
+            background: var(--shakudo-secondary);
+            border-radius: 3px;
+        }
+
+        .breadcrumb-item {
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: #f8fafc;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--shakudo-dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .breadcrumb-link:hover {
+            background-color: var(--shakudo-light);
+            color: var(--shakudo-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(42, 92, 170, 0.1);
+        }
+
+        .breadcrumb-link.active {
+            background-color: var(--shakudo-primary);
+            color: white;
+            border-color: var(--shakudo-primary);
+        }
+
+        .breadcrumb-link.active:hover {
+            background-color: var(--shakudo-secondary);
+        }
+
+        .breadcrumb-icon {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 5px;
+            color: #cbd5e0;
+            font-weight: 300;
+        }
+
+        .breadcrumb-progress {
+            height: 4px;
+            background-color: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .breadcrumb-progress-bar {
+            height: 100%;
+            background: var(--shakudo-gradient);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 2px;
         }
 
         /* Header Styles */
@@ -44,6 +150,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
+            margin-top: 0;
         }
 
         header::before {
@@ -125,6 +232,7 @@
         /* Section Styles */
         section {
             padding: 4rem 0;
+            scroll-margin-top: 100px;
         }
 
         .section-header {
@@ -207,6 +315,7 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             opacity: 0.9;
+            cursor: pointer;
         }
 
         .pyramid-segment:hover {
@@ -761,6 +870,51 @@
             line-height: 1.8;
         }
 
+        /* Current section indicator */
+        .section-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .section-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .section-dot.active {
+            background-color: var(--shakudo-primary);
+            transform: scale(1.3);
+        }
+
+        .section-dot:hover::after {
+            content: attr(data-section);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--shakudo-dark);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .pyramid-level {
@@ -805,12 +959,113 @@
             .level-number {
                 margin-bottom: 1rem;
             }
+            
+            .breadcrumb-nav {
+                padding: 0.5rem 0;
+            }
+            
+            .breadcrumb-link {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .section-indicator {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .section-indicator {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <!-- Sticky Breadcrumb Navigation -->
+    <nav class="breadcrumb-nav">
+        <div class="breadcrumb-container">
+            <ul class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="#home" class="breadcrumb-link active" data-section="home">
+                        <i class="fas fa-home breadcrumb-icon"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">›</span>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#pyramid" class="breadcrumb-link" data-section="pyramid">
+                        <i class="fas fa-layer-group breadcrumb-icon"></i>
+                        Learning Pyramid
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">›</span>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#paths" class="breadcrumb-link" data-section="paths">
+                        <i class="fas fa-road breadcrumb-icon"></i>
+                        Learning Paths
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">›</span>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#labs" class="breadcrumb-link" data-section="labs">
+                        <i class="fas fa-flask breadcrumb-icon"></i>
+                        Hands-On Labs
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">›</span>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#certification" class="breadcrumb-link" data-section="certification">
+                        <i class="fas fa-certificate breadcrumb-icon"></i>
+                        Certification Tracks
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">›</span>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#enhancements" class="breadcrumb-link" data-section="enhancements">
+                        <i class="fas fa-star breadcrumb-icon"></i>
+                        Enhancements
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">›</span>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#final" class="breadcrumb-link" data-section="final">
+                        <i class="fas fa-flag-checkered breadcrumb-icon"></i>
+                        Final Thought
+                    </a>
+                </li>
+            </ul>
+            <div class="breadcrumb-progress">
+                <div class="breadcrumb-progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section Indicator Dots -->
+    <div class="section-indicator" id="sectionIndicator">
+        <div class="section-dot active" data-section="home" onclick="scrollToSection('home')"></div>
+        <div class="section-dot" data-section="pyramid" onclick="scrollToSection('pyramid')"></div>
+        <div class="section-dot" data-section="paths" onclick="scrollToSection('paths')"></div>
+        <div class="section-dot" data-section="labs" onclick="scrollToSection('labs')"></div>
+        <div class="section-dot" data-section="certification" onclick="scrollToSection('certification')"></div>
+        <div class="section-dot" data-section="enhancements" onclick="scrollToSection('enhancements')"></div>
+        <div class="section-dot" data-section="final" onclick="scrollToSection('final')"></div>
+    </div>
+
+    <!-- Header / Home Section -->
+    <header id="home">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -821,7 +1076,7 @@
                 <h1 class="framework-title">Structured Learning Paths for Platform Mastery</h1>
                 <p class="subtitle">A complete, production-ready framework for structuring learning paths, hands-on labs, and certification-style tracks designed to drive real adoption, platform mastery, and sales velocity.</p>
                 <div class="pills">
-                    <div class="pill">Inverted Capability Pyramid</div>
+                    <div class="pill">Capability Pyramid</div>
                     <div class="pill">Role-Based Learning Paths</div>
                     <div class="pill">Hands-On Lab Scenarios</div>
                     <div class="pill">Practical Certification Tracks</div>
@@ -924,6 +1179,15 @@
                         <div class="level-outcome">Outcome: "I can teach, optimize, and sell Shakudo."</div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Navigation hint -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#paths" class="breadcrumb-link" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-down"></i>
+                    Continue to Learning Paths
+                    <i class="fas fa-road"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -1051,6 +1315,15 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Navigation hint -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#labs" class="breadcrumb-link" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-down"></i>
+                    Continue to Hands-On Labs
+                    <i class="fas fa-flask"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1177,6 +1450,15 @@
                     <div>🏆 Completion certificates</div>
                 </div>
             </div>
+            
+            <!-- Navigation hint -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#certification" class="breadcrumb-link" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-down"></i>
+                    Continue to Certification Tracks
+                    <i class="fas fa-certificate"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1257,6 +1539,15 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Navigation hint -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#enhancements" class="breadcrumb-link" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-down"></i>
+                    Continue to Learning Enhancements
+                    <i class="fas fa-star"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1321,6 +1612,15 @@
                     </ul>
                 </div>
             </div>
+            
+            <!-- Navigation hint -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#final" class="breadcrumb-link" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-down"></i>
+                    Continue to Final Thought
+                    <i class="fas fa-flag-checkered"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1352,6 +1652,15 @@
                 <p style="font-size: 1.1rem; max-width: 900px; margin: 2rem auto 0; font-style: italic; opacity: 0.9;">
                     "Transforming platform complexity into structured capability building that accelerates time-to-value and creates true platform champions."
                 </p>
+                
+                <!-- Navigation back to top -->
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#home" class="breadcrumb-link" style="display: inline-flex; align-items: center; gap: 8px; background-color: white; color: var(--shakudo-primary);">
+                        <i class="fas fa-arrow-up"></i>
+                        Back to Top
+                        <i class="fas fa-home"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -1362,7 +1671,7 @@
             <div class="footer-content">
                 <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Ready to Implement?</h3>
                 <p style="max-width: 700px; margin-bottom: 1.5rem; opacity: 0.9;">This framework is designed for immediate implementation. Let's discuss how to customize it for your organization's specific needs and launch timeline.</p>
-                <button class="proposal-cta">
+                <button class="proposal-cta" id="proposalBtn">
                     <i class="fas fa-paper-plane"></i> Request Implementation Proposal
                 </button>
                 <div class="copyright">
@@ -1374,8 +1683,75 @@
     </footer>
 
     <script>
-        // Add interactive elements
+        // Navigation functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Get all sections and breadcrumb links
+            const sections = document.querySelectorAll('section, header');
+            const breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
+            const sectionDots = document.querySelectorAll('.section-dot');
+            const progressBar = document.getElementById('progressBar');
+            
+            // Function to update active navigation based on scroll position
+            function updateActiveNav() {
+                let currentSection = '';
+                const scrollPosition = window.scrollY + 100;
+                
+                // Find the current section based on scroll position
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = sectionId;
+                    }
+                });
+                
+                // Update breadcrumb links
+                breadcrumbLinks.forEach(link => {
+                    const linkSection = link.getAttribute('href').substring(1);
+                    if (linkSection === currentSection) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                // Update section dots
+                sectionDots.forEach(dot => {
+                    const dotSection = dot.getAttribute('data-section');
+                    if (dotSection === currentSection) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+                
+                // Update progress bar
+                const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                progressBar.style.width = `${scrollPercentage}%`;
+            }
+            
+            // Add click handlers for breadcrumb links
+            breadcrumbLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#home') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                    
+                    // Update active state
+                    breadcrumbLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
             // Add click handlers for pyramid segments
             const pyramidSegments = document.querySelectorAll('.pyramid-segment');
             pyramidSegments.forEach(segment => {
@@ -1435,22 +1811,8 @@
                 });
             });
             
-            // Add hover effect for certification cards
-            const certCards = document.querySelectorAll('.cert-card');
-            certCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px)';
-                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
-                });
-            });
-            
             // CTA button interaction
-            const ctaButton = document.querySelector('.proposal-cta');
+            const ctaButton = document.getElementById('proposalBtn');
             ctaButton.addEventListener('click', function() {
                 this.innerHTML = '<i class="fas fa-check"></i> Proposal Request Sent!';
                 this.style.backgroundColor = '#38A169';
@@ -1462,23 +1824,29 @@
                 }, 3000);
             });
             
-            // Add smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+            // Function to scroll to section
+            window.scrollToSection = function(sectionId) {
+                if (sectionId === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    const targetElement = document.getElementById(sectionId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
                     }
-                });
-            });
+                }
+            };
+            
+            // Initialize active navigation on load
+            updateActiveNav();
+            
+            // Update active navigation on scroll
+            window.addEventListener('scroll', updateActiveNav);
+            
+            // Update active navigation on resize
+            window.addEventListener('resize', updateActiveNav);
+            
+            // Set initial progress bar width
+            progressBar.style.width = '0%';
         });
     </script>
 </body>
