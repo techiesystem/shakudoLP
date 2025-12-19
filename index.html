@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shakudo AI Enablement Framework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --shakudo-primary: #2A5CAA;
+            --shakudo-secondary: #4A90E2;
+            --shakudo-accent: #FF6B6B;
+            --shakudo-light: #E8F4FF;
+            --shakudo-dark: #1A365D;
+            --shakudo-success: #38A169;
+            --shakudo-warning: #ECC94B;
+            --shakudo-gradient: linear-gradient(135deg, #2A5CAA 0%, #4A90E2 100%);
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--shakudo-gradient);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.9;
+        }
+
+        .framework-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .pill {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--shakudo-dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--shakudo-accent);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* INVERTED PYRAMID Styles */
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        /* Pyramid shape visualization */
+        .pyramid-visual {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 2rem auto 3rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pyramid-shape {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 260px solid rgba(42, 92, 170, 0.1);
+            bottom: 0;
+        }
+
+        .pyramid-levels {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: flex-start;
+        }
+
+        .pyramid-segment {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+
+        .pyramid-segment:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .segment-1 { background-color: rgba(42, 92, 170, 0.95); }
+        .segment-2 { background-color: rgba(42, 92, 170, 0.85); }
+        .segment-3 { background-color: rgba(42, 92, 170, 0.75); }
+        .segment-4 { background-color: rgba(42, 92, 170, 0.65); }
+        .segment-5 { background-color: rgba(42, 92, 170, 0.55); }
+
+        /* Detailed level cards */
+        .pyramid-level {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid var(--shakudo-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .pyramid-level:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Inverted width progression - Level 1 is widest at the top */
+        .level-1 { width: 100%; border-left-color: #4A90E2; }
+        .level-2 { width: 85%; border-left-color: #5AA0F0; }
+        .level-3 { width: 70%; border-left-color: #6AB0FF; }
+        .level-4 { width: 55%; border-left-color: #7AC0FF; }
+        .level-5 { width: 40%; border-left-color: #8AD0FF; }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .level-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--shakudo-dark);
+        }
+
+        .level-number {
+            background-color: var(--shakudo-secondary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+
+        .level-content {
+            flex-grow: 1;
+        }
+
+        .level-audience {
+            display: inline-block;
+            background-color: var(--shakudo-light);
+            color: var(--shakudo-primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .level-outcome {
+            font-style: italic;
+            color: #555;
+            border-left: 3px solid var(--shakudo-accent);
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        /* Learning Paths */
+        .paths-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .path-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .path-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .path-header {
+            background: var(--shakudo-gradient);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .path-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .path-title {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .path-goal {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .path-content {
+            padding: 1.5rem;
+        }
+
+        .modules-list {
+            list-style-type: none;
+        }
+
+        .modules-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .modules-list li:last-child {
+            border-bottom: none;
+        }
+
+        .modules-list li::before {
+            content: "▸";
+            color: var(--shakudo-secondary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .learning-assets {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #ddd;
+        }
+
+        .assets-title {
+            font-weight: 600;
+            color: var(--shakudo-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .asset-tag {
+            display: inline-block;
+            background-color: #f0f7ff;
+            color: var(--shakudo-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* Labs Section */
+        .labs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .lab-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .lab-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .lab-number {
+            background-color: var(--shakudo-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            z-index: 1;
+        }
+
+        .lab-header {
+            background: linear-gradient(135deg, var(--shakudo-primary) 0%, #3a7bd5 100%);
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            position: relative;
+        }
+
+        .lab-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .lab-scenario {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .lab-content {
+            padding: 1.5rem;
+        }
+
+        .lab-tasks {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .lab-tasks li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .lab-tasks li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--shakudo-success);
+            font-weight: bold;
+        }
+
+        .skill-check {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--shakudo-warning);
+        }
+
+        .skill-check-title {
+            font-weight: 600;
+            color: var(--shakudo-dark);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Certification Section */
+        .cert-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            border-top: 5px solid var(--shakudo-secondary);
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .cert-header {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cert-title {
+            font-size: 1.3rem;
+            color: var(--shakudo-dark);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .cert-audience {
+            display: inline-block;
+            background-color: var(--shakudo-light);
+            color: var(--shakudo-primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .cert-content {
+            padding: 1.5rem;
+        }
+
+        .assessment-mix {
+            margin-bottom: 1.5rem;
+        }
+
+        .assessment-title {
+            font-weight: 600;
+            color: var(--shakudo-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .assessment-item {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .assessment-item::before {
+            content: "•";
+            color: var(--shakudo-secondary);
+            position: absolute;
+            left: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .cert-outcome {
+            background-color: #f0f7ff;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--shakudo-primary);
+        }
+
+        /* Enhancements Section */
+        .enhancements-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .enhancement-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .enhancement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .enhancement-icon {
+            font-size: 2.5rem;
+            color: var(--shakudo-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .enhancement-title {
+            font-size: 1.3rem;
+            color: var(--shakudo-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .enhancement-desc {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .enhancement-features {
+            text-align: left;
+            list-style-type: none;
+        }
+
+        .enhancement-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .enhancement-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--shakudo-success);
+            font-weight: bold;
+        }
+
+        /* Final Section */
+        .final-thought {
+            background: var(--shakudo-gradient);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 3rem;
+            box-shadow: 0 10px 30px rgba(42, 92, 170, 0.2);
+        }
+
+        .final-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .final-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .final-point {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .final-point i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .final-point h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--shakudo-dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .proposal-cta {
+            background-color: var(--shakudo-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .proposal-cta:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Inverted Pyramid Visualization */
+        .inverted-pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        .inverted-pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Pyramid description */
+        .pyramid-explanation {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+            max-width: 800px;
+        }
+
+        .pyramid-explanation h3 {
+            color: var(--shakudo-dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .pyramid-explanation p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pyramid-level {
+                width: 95% !important;
+            }
+            
+            .paths-container,
+            .labs-container,
+            .cert-container,
+            .enhancements-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .framework-title {
+                font-size: 1.8rem;
+            }
+            
+            .final-points {
+                grid-template-columns: 1fr;
+            }
+            
+            .pyramid-visual {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .pyramid-shape {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-bottom: 220px solid rgba(42, 92, 170, 0.1);
+            }
+            
+            .pyramid-level {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .level-number {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                    <div class="logo-text">SHAKUDO</div>
+                </div>
+                <div class="tagline">AI-Powered Stack Enablement Framework</div>
+                <h1 class="framework-title">Structured Learning Paths for Platform Mastery</h1>
+                <p class="subtitle">A complete, production-ready framework for structuring learning paths, hands-on labs, and certification-style tracks designed to drive real adoption, platform mastery, and sales velocity.</p>
+                <div class="pills">
+                    <div class="pill">Inverted Capability Pyramid</div>
+                    <div class="pill">Role-Based Learning Paths</div>
+                    <div class="pill">Hands-On Lab Scenarios</div>
+                    <div class="pill">Practical Certification Tracks</div>
+                    <div class="pill">World-Class Learning Experience</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Learning Architecture Pyramid -->
+    <section id="pyramid">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">1. Learning Architecture: The Shakudo Enablement Pyramid</h2>
+                <p class="section-subtitle">Think of Shakudo's Stack learning as a progressive capability pyramid, starting with broad awareness and narrowing to expert mastery.</p>
+            </div>
+            
+            <!-- Inverted Pyramid Visualization -->
+            <div class="inverted-pyramid-container">
+                <div class="pyramid-visual">
+                    <div class="pyramid-shape"></div>
+                    <div class="pyramid-levels">
+                        <div class="pyramid-segment segment-1" data-level="1">Awareness & Conceptual Fluency</div>
+                        <div class="pyramid-segment segment-2" data-level="2">Functional Proficiency</div>
+                        <div class="pyramid-segment segment-3" data-level="3">Operational Mastery</div>
+                        <div class="pyramid-segment segment-4" data-level="4">Solution & Architecture Design</div>
+                        <div class="pyramid-segment segment-5" data-level="5">Expert & Advocate</div>
+                    </div>
+                </div>
+                
+                <div class="pyramid-explanation">
+                    <h3><i class="fas fa-info-circle"></i> How the Inverted Pyramid Works</h3>
+                    <p>The Shakudo Enablement Pyramid represents a <strong>capability funnel</strong> that starts with broad awareness (widest at the top) and narrows to specialized expertise (narrowest at the bottom). Each level builds upon the previous, creating a progressive journey from initial understanding to deep mastery.</p>
+                </div>
+            </div>
+            
+            <!-- Detailed Pyramid Levels -->
+            <div class="pyramid-container">
+                <!-- Level 1 - Widest at the top -->
+                <div class="pyramid-level level-1">
+                    <div class="level-number">1</div>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3 class="level-title">Awareness & Conceptual Fluency</h3>
+                        </div>
+                        <div class="level-audience">Prospects, Exec Sponsors, Pre-Sales</div>
+                        <p>Foundational understanding of Shakudo's value proposition, platform capabilities, and business impact. Entry point for all users.</p>
+                        <div class="level-outcome">Outcome: "I understand what Shakudo does and why it matters."</div>
+                    </div>
+                </div>
+                
+                <!-- Level 2 -->
+                <div class="pyramid-level level-2">
+                    <div class="level-number">2</div>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3 class="level-title">Functional Proficiency</h3>
+                        </div>
+                        <div class="level-audience">Data Scientists, ML Engineers, Platform Users</div>
+                        <p>Hands-on skills to effectively use the platform for core tasks and workflows. Focus on practical application.</p>
+                        <div class="level-outcome">Outcome: "I can use the platform to get real work done."</div>
+                    </div>
+                </div>
+                
+                <!-- Level 3 -->
+                <div class="pyramid-level level-3">
+                    <div class="level-number">3</div>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3 class="level-title">Operational Mastery</h3>
+                        </div>
+                        <div class="level-audience">Platform Admins, ML Ops, Data Platform Teams</div>
+                        <p>Advanced skills to manage, optimize, and govern Shakudo deployments at scale. Moving from user to operator.</p>
+                        <div class="level-outcome">Outcome: "I can run, scale, and govern this platform."</div>
+                    </div>
+                </div>
+                
+                <!-- Level 4 -->
+                <div class="pyramid-level level-4">
+                    <div class="level-number">4</div>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3 class="level-title">Solution & Architecture Design</h3>
+                        </div>
+                        <div class="level-audience">Architects, Partners, Senior Engineers</div>
+                        <p>Strategic ability to design end-to-end solutions and architect implementations. Creating with Shakudo.</p>
+                        <div class="level-outcome">Outcome: "I can design solutions with Shakudo."</div>
+                    </div>
+                </div>
+                
+                <!-- Level 5 - Narrowest at the bottom -->
+                <div class="pyramid-level level-5">
+                    <div class="level-number">5</div>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3 class="level-title">Expert & Advocate</h3>
+                        </div>
+                        <div class="level-audience">Champions, Partners, Internal SMEs</div>
+                        <p>Mastery to teach, optimize, and evangelize Shakudo's capabilities. The pinnacle of platform expertise.</p>
+                        <div class="level-outcome">Outcome: "I can teach, optimize, and sell Shakudo."</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Paths -->
+    <section id="paths" style="background-color: #f0f7ff;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">2. Learning Paths (Role-Based, Outcome-Driven)</h2>
+                <p class="section-subtitle">Each learning path is role-aligned, scenario-driven, and stack-component mapped.</p>
+            </div>
+            <div class="paths-container">
+                <!-- Data Scientist Path -->
+                <div class="path-card">
+                    <div class="path-header">
+                        <div class="path-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3 class="path-title">Data Scientist Path</h3>
+                        <p class="path-goal">"From Notebook to Production"</p>
+                    </div>
+                    <div class="path-content">
+                        <p><strong>Goal:</strong> Enable data scientists to build, train, and iterate ML models using Shakudo's Stack.</p>
+                        <h4 class="assets-title"><i class="fas fa-list-ul"></i>Modules</h4>
+                        <ul class="modules-list">
+                            <li>Shakudo Stack Fundamentals</li>
+                            <li>Working with Data at Scale</li>
+                            <li>Model Development & Experimentation</li>
+                            <li>Collaboration & Handoff</li>
+                        </ul>
+                        <div class="learning-assets">
+                            <h4 class="assets-title"><i class="fas fa-box-open"></i>Learning Assets</h4>
+                            <div>
+                                <span class="asset-tag">Guided walkthrough videos</span>
+                                <span class="asset-tag">Interactive notebooks</span>
+                                <span class="asset-tag">"Why this matters" callouts</span>
+                                <span class="asset-tag">Troubleshooting patterns</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ML Engineer Path -->
+                <div class="path-card">
+                    <div class="path-header">
+                        <div class="path-icon"><i class="fas fa-cogs"></i></div>
+                        <h3 class="path-title">ML Engineer / ML Ops Path</h3>
+                        <p class="path-goal">"From Model to Managed Service"</p>
+                    </div>
+                    <div class="path-content">
+                        <p><strong>Goal:</strong> Enable reliable, scalable, governed ML deployments.</p>
+                        <h4 class="assets-title"><i class="fas fa-list-ul"></i>Modules</h4>
+                        <ul class="modules-list">
+                            <li>Stack Architecture Deep Dive</li>
+                            <li>Pipeline Orchestration & Automation</li>
+                            <li>Model Deployment & Serving</li>
+                            <li>Monitoring, Drift & Retraining</li>
+                            <li>Security, Governance & Cost Controls</li>
+                        </ul>
+                        <div class="learning-assets">
+                            <h4 class="assets-title"><i class="fas fa-box-open"></i>Learning Assets</h4>
+                            <div>
+                                <span class="asset-tag">Architecture diagrams</span>
+                                <span class="asset-tag">Deployment playbooks</span>
+                                <span class="asset-tag">Troubleshooting simulations</span>
+                                <span class="asset-tag">Cost optimization guides</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Platform Admin Path -->
+                <div class="path-card">
+                    <div class="path-header">
+                        <div class="path-icon"><i class="fas fa-server"></i></div>
+                        <h3 class="path-title">Platform Admin Path</h3>
+                        <p class="path-goal">"Operate with Confidence"</p>
+                    </div>
+                    <div class="path-content">
+                        <p><strong>Goal:</strong> Enable secure, performant, cost-efficient platform operations.</p>
+                        <h4 class="assets-title"><i class="fas fa-list-ul"></i>Modules</h4>
+                        <ul class="modules-list">
+                            <li>Environment & Resource Management</li>
+                            <li>User Access & Governance</li>
+                            <li>Infrastructure Integrations</li>
+                            <li>Observability & Troubleshooting</li>
+                            <li>Upgrade & Lifecycle Management</li>
+                        </ul>
+                        <div class="learning-assets">
+                            <h4 class="assets-title"><i class="fas fa-box-open"></i>Learning Assets</h4>
+                            <div>
+                                <span class="asset-tag">Administration guides</span>
+                                <span class="asset-tag">Security checklists</span>
+                                <span class="asset-tag">Performance benchmarks</span>
+                                <span class="asset-tag">Disaster recovery runbooks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pre-Sales Path -->
+                <div class="path-card">
+                    <div class="path-header">
+                        <div class="path-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h3 class="path-title">Pre-Sales & Partners Path</h3>
+                        <p class="path-goal">"Tell the Platform Story"</p>
+                    </div>
+                    <div class="path-content">
+                        <p><strong>Goal:</strong> Enable confident demos, discovery, and technical storytelling.</p>
+                        <h4 class="assets-title"><i class="fas fa-list-ul"></i>Modules</h4>
+                        <ul class="modules-list">
+                            <li>Shakudo Value Narrative</li>
+                            <li>Common Customer Scenarios</li>
+                            <li>Live Demo Walkthroughs</li>
+                            <li>Objections & Competitive Positioning</li>
+                            <li>Architecture Whiteboarding</li>
+                        </ul>
+                        <div class="learning-assets">
+                            <h4 class="assets-title"><i class="fas fa-box-open"></i>Learning Assets</h4>
+                            <div>
+                                <span class="asset-tag">Demo scripts</span>
+                                <span class="asset-tag">Competitive battlecards</span>
+                                <span class="asset-tag">Value calculators</span>
+                                <span class="asset-tag">Whiteboarding templates</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hands-On Labs -->
+    <section id="labs">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">3. Hands-On Labs: Real-World, Progressive, Irreversible</h2>
+                <p class="section-subtitle">Labs are where credibility is earned through scenario-driven, progressive learning experiences.</p>
+            </div>
+            
+            <div style="background-color: #f8f9fa; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h3 style="color: var(--shakudo-dark); margin-bottom: 1rem;">Lab Design Principles</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--shakudo-secondary);">
+                        <strong>Scenario-driven</strong><br>Real company, real problem
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--shakudo-secondary);">
+                        <strong>Progressive difficulty</strong><br>Build skills incrementally
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--shakudo-secondary);">
+                        <strong>Irreversible steps</strong><br>No copy-paste success
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--shakudo-secondary);">
+                        <strong>Observable outcomes</strong><br>Measurable skill validation
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="text-align: center; color: var(--shakudo-dark); margin: 2rem 0 1.5rem;">Sample Lab Progression (Data → ML → Ops)</h3>
+            
+            <div class="labs-container">
+                <!-- Lab 1 -->
+                <div class="lab-card">
+                    <div class="lab-number">1</div>
+                    <div class="lab-header">
+                        <h3 class="lab-title">Getting Productive Fast</h3>
+                        <p class="lab-scenario">"You've joined a data science team. Your environment is inconsistent and onboarding is slow."</p>
+                    </div>
+                    <div class="lab-content">
+                        <ul class="lab-tasks">
+                            <li>Create workspace</li>
+                            <li>Configure environment</li>
+                            <li>Access shared data</li>
+                            <li>Run first experiment</li>
+                        </ul>
+                        <div class="skill-check">
+                            <div class="skill-check-title"><i class="fas fa-clipboard-check"></i> Skill Check</div>
+                            <p>Environment reproducibility - Can recreate identical workspace from scratch</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lab 2 -->
+                <div class="lab-card">
+                    <div class="lab-number">2</div>
+                    <div class="lab-header">
+                        <h3 class="lab-title">Scaling Experimentation</h3>
+                        <p class="lab-scenario">"Your team needs to run systematic experiments with proper tracking and comparison."</p>
+                    </div>
+                    <div class="lab-content">
+                        <ul class="lab-tasks">
+                            <li>Parameter sweeps</li>
+                            <li>Experiment tracking</li>
+                            <li>Compare runs</li>
+                            <li>Optimize hyperparameters</li>
+                        </ul>
+                        <div class="skill-check">
+                            <div class="skill-check-title"><i class="fas fa-clipboard-check"></i> Skill Check</div>
+                            <p>Experiment lineage & metrics - Track and compare multiple experiment runs</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lab 3 -->
+                <div class="lab-card">
+                    <div class="lab-number">3</div>
+                    <div class="lab-header">
+                        <h3 class="lab-title">Production Handoff</h3>
+                        <p class="lab-scenario">"Your model shows promising results and needs to be prepared for production deployment."</p>
+                    </div>
+                    <div class="lab-content">
+                        <ul class="lab-tasks">
+                            <li>Package model</li>
+                            <li>Register artifact</li>
+                            <li>Hand off to ML Ops pipeline</li>
+                            <li>Validate deployment readiness</li>
+                        </ul>
+                        <div class="skill-check">
+                            <div class="skill-check-title"><i class="fas fa-clipboard-check"></i> Skill Check</div>
+                            <p>Model readiness checklist - Complete all steps for production deployment</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lab 4 -->
+                <div class="lab-card">
+                    <div class="lab-number">4</div>
+                    <div class="lab-header">
+                        <h3 class="lab-title">Operational Reality</h3>
+                        <p class="lab-scenario">"Your deployed model needs monitoring, drift detection, and potential retraining."</p>
+                    </div>
+                    <div class="lab-content">
+                        <ul class="lab-tasks">
+                            <li>Deploy model</li>
+                            <li>Monitor drift</li>
+                            <li>Trigger retraining</li>
+                            <li>Update production model</li>
+                        </ul>
+                        <div class="skill-check">
+                            <div class="skill-check-title"><i class="fas fa-clipboard-check"></i> Skill Check</div>
+                            <p>Operational decision-making - Determine when and how to retrain based on metrics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background-color: #f0f7ff; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h4 style="color: var(--shakudo-dark); margin-bottom: 1rem;"><i class="fas fa-tasks"></i> Lab Deliverables</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>✅ Checkpoints with validation criteria</div>
+                    <div>📊 Logs, metrics, artifacts</div>
+                    <div>💭 "Explain what happened" reflection prompts</div>
+                    <div>🏆 Completion certificates</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Tracks -->
+    <section id="certification" style="background-color: #f0f7ff;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">4. Certification-Style Tracks (Credible, Practical, Stack-Aligned)</h2>
+                <p class="section-subtitle">Certifications validate capability, not memorization.</p>
+            </div>
+            
+            <div class="cert-container">
+                <!-- Practitioner -->
+                <div class="cert-card">
+                    <div class="cert-header">
+                        <h3 class="cert-title">Shakudo Stack Practitioner</h3>
+                        <div class="cert-audience">Users of the platform</div>
+                    </div>
+                    <div class="cert-content">
+                        <div class="assessment-mix">
+                            <div class="assessment-title"><i class="fas fa-clipboard-list"></i> Assessment Mix</div>
+                            <div class="assessment-item">Scenario-based MCQs (why this approach?)</div>
+                            <div class="assessment-item">Hands-on lab validation</div>
+                            <div class="assessment-item">Artifact review (models, pipelines)</div>
+                        </div>
+                        <div class="cert-outcome">Outcome: Can use Shakudo effectively.</div>
+                    </div>
+                </div>
+                
+                <!-- Operator -->
+                <div class="cert-card">
+                    <div class="cert-header">
+                        <h3 class="cert-title">Shakudo Stack Operator</h3>
+                        <div class="cert-audience">ML Ops, Platform teams</div>
+                    </div>
+                    <div class="cert-content">
+                        <div class="assessment-mix">
+                            <div class="assessment-title"><i class="fas fa-clipboard-list"></i> Assessment Mix</div>
+                            <div class="assessment-item">Architecture decision scenarios</div>
+                            <div class="assessment-item">Troubleshooting simulations</div>
+                            <div class="assessment-item">Live environment tasks</div>
+                        </div>
+                        <div class="cert-outcome">Outcome: Can run Shakudo reliably.</div>
+                    </div>
+                </div>
+                
+                <!-- Architect -->
+                <div class="cert-card">
+                    <div class="cert-header">
+                        <h3 class="cert-title">Shakudo Stack Architect</h3>
+                        <div class="cert-audience">Senior engineers, partners</div>
+                    </div>
+                    <div class="cert-content">
+                        <div class="assessment-mix">
+                            <div class="assessment-title"><i class="fas fa-clipboard-list"></i> Assessment Mix</div>
+                            <div class="assessment-item">Whiteboard architecture</div>
+                            <div class="assessment-item">Trade-off analysis</div>
+                            <div class="assessment-item">End-to-end solution design</div>
+                        </div>
+                        <div class="cert-outcome">Outcome: Can design with Shakudo.</div>
+                    </div>
+                </div>
+                
+                <!-- Expert -->
+                <div class="cert-card">
+                    <div class="cert-header">
+                        <h3 class="cert-title">Shakudo Stack Expert / Champion</h3>
+                        <div class="cert-audience">Internal SMEs, elite partners</div>
+                    </div>
+                    <div class="cert-content">
+                        <div class="assessment-mix">
+                            <div class="assessment-title"><i class="fas fa-clipboard-list"></i> Assessment Mix</div>
+                            <div class="assessment-item">Teaching demo</div>
+                            <div class="assessment-item">Custom use-case implementation</div>
+                            <div class="assessment-item">Optimization challenge</div>
+                        </div>
+                        <div class="cert-outcome">Outcome: Can teach, optimize, and advocate.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Experience Enhancements -->
+    <section id="enhancements">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">5. Learning Experience Enhancements</h2>
+                <p class="section-subtitle">What makes this framework "world-class"</p>
+            </div>
+            
+            <div class="enhancements-container">
+                <!-- Narrative-Driven -->
+                <div class="enhancement-card">
+                    <div class="enhancement-icon"><i class="fas fa-book-open"></i></div>
+                    <h3 class="enhancement-title">Narrative-Driven Learning</h3>
+                    <p class="enhancement-desc">Every path uses cohesive storytelling to enhance engagement and retention.</p>
+                    <ul class="enhancement-features">
+                        <li>A fictitious company with real-world challenges</li>
+                        <li>Evolving datasets that grow with complexity</li>
+                        <li>Character personas representing different roles</li>
+                        <li>Progressive scenarios building on previous learning</li>
+                    </ul>
+                </div>
+                
+                <!-- Just-in-Time -->
+                <div class="enhancement-card">
+                    <div class="enhancement-icon"><i class="fas fa-bolt"></i></div>
+                    <h3 class="enhancement-title">Just-in-Time Enablement</h3>
+                    <p class="enhancement-desc">Contextual learning resources available exactly when needed.</p>
+                    <ul class="enhancement-features">
+                        <li>Embedded tips inside the product UI</li>
+                        <li>Contextual help tied to user actions</li>
+                        <li>Micro-learning modules (≤5 minutes)</li>
+                        <li>Searchable knowledge base integrated with platform</li>
+                    </ul>
+                </div>
+                
+                <!-- Feedback Loops -->
+                <div class="enhancement-card">
+                    <div class="enhancement-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3 class="enhancement-title">Feedback Loops & Analytics</h3>
+                    <p class="enhancement-desc">Data-driven insights to continuously improve the learning experience.</p>
+                    <ul class="enhancement-features">
+                        <li>Learning analytics dashboard</li>
+                        <li>Drop-off point identification</li>
+                        <li>Lab failure pattern analysis</li>
+                        <li>Skill gap detection and recommendations</li>
+                    </ul>
+                </div>
+                
+                <!-- Business Outcome -->
+                <div class="enhancement-card">
+                    <div class="enhancement-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3 class="enhancement-title">Business Outcome Mapping</h3>
+                    <p class="enhancement-desc">Every module clearly connects to tangible organizational value.</p>
+                    <ul class="enhancement-features">
+                        <li>Each module answers: "What problem does this solve?"</li>
+                        <li>ROI calculators for time/cost savings</li>
+                        <li>Case studies showing before/after impact</li>
+                        <li>Metrics that matter to business stakeholders</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Thought -->
+    <section id="final">
+        <div class="container">
+            <div class="final-thought">
+                <h2 class="final-title">Why This Framework Works</h2>
+                <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto 2rem;">This comprehensive structure turns Shakudo's Stack into a learnable platform, not a black box, by addressing the complete enablement journey from awareness to expertise.</p>
+                
+                <div class="final-points">
+                    <div class="final-point">
+                        <i class="fas fa-users"></i>
+                        <h4>Scales Across Personas</h4>
+                        <p>Addresses needs from executives to engineers with tailored paths</p>
+                    </div>
+                    <div class="final-point">
+                        <i class="fas fa-rocket"></i>
+                        <h4>Drives Real Adoption</h4>
+                        <p>Focuses on practical skills that translate to platform usage</p>
+                    </div>
+                    <div class="final-point">
+                        <i class="fas fa-handshake"></i>
+                        <h4>Supports Business Goals</h4>
+                        <p>Aligns with sales, success, and engineering objectives</p>
+                    </div>
+                </div>
+                
+                <p style="font-size: 1.1rem; max-width: 900px; margin: 2rem auto 0; font-style: italic; opacity: 0.9;">
+                    "Transforming platform complexity into structured capability building that accelerates time-to-value and creates true platform champions."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Ready to Implement?</h3>
+                <p style="max-width: 700px; margin-bottom: 1.5rem; opacity: 0.9;">This framework is designed for immediate implementation. Let's discuss how to customize it for your organization's specific needs and launch timeline.</p>
+                <button class="proposal-cta">
+                    <i class="fas fa-paper-plane"></i> Request Implementation Proposal
+                </button>
+                <div class="copyright">
+                    <p>© 2023 Shakudo AI Enablement Framework. This proposal represents a complete, production-ready framework for structured learning paths.</p>
+                    <p style="margin-top: 10px;">Confidential - For review and approval only</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for pyramid segments
+            const pyramidSegments = document.querySelectorAll('.pyramid-segment');
+            pyramidSegments.forEach(segment => {
+                segment.addEventListener('click', function() {
+                    const level = this.getAttribute('data-level');
+                    
+                    // Remove highlight from all levels
+                    const pyramidLevels = document.querySelectorAll('.pyramid-level');
+                    pyramidLevels.forEach(l => {
+                        l.style.backgroundColor = 'white';
+                        l.style.borderLeft = '5px solid var(--shakudo-secondary)';
+                    });
+                    
+                    // Highlight the corresponding detailed level
+                    const targetLevel = document.querySelector(`.level-${level}`);
+                    if (targetLevel) {
+                        targetLevel.style.backgroundColor = '#f0f7ff';
+                        targetLevel.style.borderLeft = '5px solid var(--shakudo-accent)';
+                        
+                        // Scroll to the level
+                        targetLevel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
+            });
+            
+            // Add click handlers for pyramid levels
+            const pyramidLevels = document.querySelectorAll('.pyramid-level');
+            pyramidLevels.forEach(level => {
+                level.addEventListener('click', function() {
+                    // Remove highlight from all levels
+                    pyramidLevels.forEach(l => {
+                        l.style.backgroundColor = 'white';
+                        l.style.borderLeft = '5px solid var(--shakudo-secondary)';
+                    });
+                    // Highlight clicked level
+                    this.style.backgroundColor = '#f0f7ff';
+                    this.style.borderLeft = '5px solid var(--shakudo-accent)';
+                    
+                    // Also highlight the corresponding pyramid segment
+                    const levelClass = Array.from(this.classList).find(cls => cls.startsWith('level-'));
+                    if (levelClass) {
+                        const levelNum = levelClass.split('-')[1];
+                        const segment = document.querySelector(`.segment-${levelNum}`);
+                        
+                        // Remove highlight from all segments
+                        pyramidSegments.forEach(s => {
+                            s.style.opacity = '0.9';
+                            s.style.transform = 'scale(1)';
+                        });
+                        
+                        // Highlight the corresponding segment
+                        if (segment) {
+                            segment.style.opacity = '1';
+                            segment.style.transform = 'scale(1.1)';
+                        }
+                    }
+                });
+            });
+            
+            // Add hover effect for certification cards
+            const certCards = document.querySelectorAll('.cert-card');
+            certCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
+                });
+            });
+            
+            // CTA button interaction
+            const ctaButton = document.querySelector('.proposal-cta');
+            ctaButton.addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-check"></i> Proposal Request Sent!';
+                this.style.backgroundColor = '#38A169';
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-paper-plane"></i> Request Implementation Proposal';
+                    this.style.backgroundColor = '';
+                }, 3000);
+            });
+            
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
